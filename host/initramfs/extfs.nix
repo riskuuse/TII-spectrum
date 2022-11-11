@@ -8,6 +8,10 @@ let
     inherit pkgs;
     # inherit (foot) terminfo;
   };
+  proxyvm = import ../../vm/sys/proxyvm {
+    inherit pkgs;
+    # inherit (foot) terminfo;
+  };
 
   appvm-catgirl = import ../../vm/app/catgirl {
     inherit pkgs;
@@ -26,6 +30,8 @@ runCommand "ext.ext4" {
   mkdir svc
 
   tar -C ${netvm} -c data | tar -C svc -x
+  chmod +w svc/data
+  tar -C ${proxyvm} -c data | tar -C svc -x
   chmod +w svc/data
   tar -C ${appvm-catgirl} -c data | tar -C svc -x
   chmod +w svc/data
